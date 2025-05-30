@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="https://schema.org/WebApplication">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <!-- Primary Meta Tags -->
+    <title>TubeTag | YouTube SEO Tool | Tags & Hashtags Generator</title>
+    <meta name="description" content="Generate SEO-optimized YouTube tags and viral hashtags instantly. Boost video rankings and engagement with AI-powered suggestions">
+    <meta name="keywords" content="youtube tags generator, youtube hashtags, video seo tool, youtube keyword tool">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TubeTag Generator",
+        "description": "AI-powered YouTube SEO tool for tags and hashtags generation",
+        "applicationCategory": "SEO Tools",
+        "operatingSystem": "Web",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "3500"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #FF0000;
+            --dark: #0F0F0F;
+            --darker: #060606;
+            --light: #FFFFFF;
+            --gray: #606060;
+            --success: #4CAF50;
+            --gradient: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--darker);
+            color: var(--light);
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--dark);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            color: var(--light);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        main {
+            flex: 1;
+            padding: 3rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(45deg, #FFF 60%, #FF9999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #AAA;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+
+        .generator-box {
+            background: var(--dark);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .input-group {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255,0,0,0.05);
+            box-shadow: 0 0 0 4px rgba(255,0,0,0.1);
+        }
+
+        .input-label {
+            position: absolute;
+            left: 1rem;
+            top: -0.75rem;
+            background: var(--dark);
+            padding: 0 0.5rem;
+            font-size: 0.9rem;
+            color: #AAA;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--light);
+            box-shadow: 0 4px 15px rgba(255,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--light);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,0,0,0.4);
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 2rem 0;
+            display: none;
+        }
+
+        .tag-item {
+            background: rgba(255,255,255,0.05);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hashtag-item {
+            background: rgba(255,0,0,0.1);
+            border-color: var(--primary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem 0;
+            display: none;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        .result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .copy-success {
+            color: var(--success);
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .show-success {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 12px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem 0;
+            margin-top: auto;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .generator-box {
+                padding: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <span class="logo-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                    </svg>
+                </span>
+                <span class="logo-text">TubeTag</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>YouTube SEO Toolkit</h1>
+                <p>Generate high-performing tags and viral hashtags for your YouTube videos</p>
+                
+                <div class="generator-box">
+                    <div class="input-group">
+                        <input type="text" class="input-field" id="keywordInput" 
+                               placeholder="Enter video title...">
+                        <span class="input-label">Video Title</span>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="generateTags()">
+                            Generate Tags
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateHashtags()">
+                            Generate Hashtags
+                        </button>
+                    </div>
+
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p style="margin-top:1rem">Analyzing title...</p>
+                    </div>
+
+                    <div class="tags-container" id="tagsContainer"></div>
+                    <div class="tags-container" id="hashtagsContainer"></div>
+
+                    <div class="result-actions" id="copySection">
+                        <button class="btn btn-primary" onclick="copyContent()">
+                            Copy All
+                        </button>
+                        <div class="copy-success" id="copySuccess">✅ Copied to clipboard!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                            <path d="M21 6h-7.59l3.29-3.29L16 2l-4 4-4-4-.71.71L10.59 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 14H3V8h18v12zM9 10v8l7-4z"/>
+                        </svg>
+                    </div>
+                    <h3>Dual Generation</h3>
+                    <p>Create both SEO tags and viral hashtags</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                            <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                        </svg>
+                    </div>
+                    <h3>AI-Powered</h3>
+                    <p>Smart analysis of trending keywords</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3>Instant Copy</h3>
+                    <p>One-click copy formatted results</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p style="text-align: center; color: #666; margin-top: 3rem;">
+                © 2024 TubeTag. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Tag Generation Logic
+        const generateTags = () => {
+            const title = document.getElementById('keywordInput').value.trim();
+            const loading = document.getElementById('loading');
+            const tagsContainer = document.getElementById('tagsContainer');
+            const hashtagsContainer = document.getElementById('hashtagsContainer');
+            const copySection = document.getElementById('copySection');
+
+            if (!title) {
+                alert('Please enter your video title');
+                return;
+            }
+
+            loading.style.display = 'block';
+            tagsContainer.style.display = 'none';
+            hashtagsContainer.style.display = 'none';
+            copySection.style.display = 'none';
+
+            setTimeout(() => {
+                const tags = createSEOtags(title);
+                displayTags(tags);
+                loading.style.display = 'none';
+                copySection.style.display = 'flex';
+                window.scrollTo({ top: tagsContainer.offsetTop - 100, behavior: 'smooth' });
+            }, 800);
+        };
+
+        const createSEOtags = (title) => {
+            const currentYear = new Date().getFullYear();
+            const modifiers = [
+                'tutorial', 'guide', 'tips', 'tricks', 'for beginners',
+                'step by step', 'masterclass', currentYear, 'new method',
+                'complete guide', 'walkthrough', 'explained', 'demo'
+            ];
+
+            const stopWords = new Set(['how', 'to', 'the', 'a', 'and', 'for']);
+            const keywords = title.toLowerCase()
+                .split(/[\s,]+/)
+                .filter(word => word.length > 2 && !stopWords.has(word));
+
+            const titleTags = [
+                title,
+                `${title} ${currentYear}`,
+                `how to ${title}`,
+                `${title} tutorial`,
+                `${title} guide`,
+                `${title} tips and tricks`,
+                `learn ${title}`,
+                `${title} for beginners`
+            ];
+
+            const keywordCombos = [];
+            keywords.forEach((word, index) => {
+                if (index < keywords.length - 1) {
+                    keywordCombos.push(
+                        `${word} ${keywords[index + 1]}`,
+                        `${word} and ${keywords[index + 1]}`,
+                        `${word} vs ${keywords[index + 1]}`
+                    );
+                }
+            });
+
+            const modifiedTags = modifiers.flatMap(mod => [
+                `${title} ${mod}`,
+                `${mod} ${title}`,
+                ...keywords.map(word => `${word} ${mod}`)
+            ]);
+
+            return [...new Set([
+                ...titleTags,
+                ...keywordCombos,
+                ...modifiedTags,
+                ...keywords,
+                ...modifiers
+            ])].filter(tag => tag.length <= 60).slice(0, 30);
+        };
+
+        // Hashtag Generation Logic
+        const generateHashtags = () => {
+            const title = document.getElementById('keywordInput').value.trim();
+            const loading = document.getElementById('loading');
+            const hashtagsContainer = document.getElementById('hashtagsContainer');
+            const tagsContainer = document.getElementById('tagsContainer');
+            const copySection = document.getElementById('copySection');
+
+            if (!title) {
+                alert('Please enter your video title');
+                return;
+            }
+
+            loading.style.display = 'block';
+            hashtagsContainer.style.display = 'none';
+            tagsContainer.style.display = 'none';
+            copySection.style.display = 'none';
+
+            setTimeout(() => {
+                const hashtags = createViralHashtags(title);
+                displayHashtags(hashtags);
+                loading.style.display = 'none';
+                copySection.style.display = 'flex';
+                window.scrollTo({ top: hashtagsContainer.offsetTop - 100, behavior: 'smooth' });
+            }, 800);
+        };
+
+        const createViralHashtags = (title) => {
+            const keywords = title.toLowerCase()
+                .split(/[\s,]+/)
+                .filter(word => word.length > 2);
+
+            const hashtagModifiers = [
+                'Tips', 'Tricks', 'Hacks', 'Tutorial', 'Guide',
+                '2024', 'New', 'Secret', 'Pro', 'Easy'
+            ];
+
+            const mainHashtags = keywords.map(word => 
+                `#${word.charAt(0).toUpperCase() + word.slice(1)}`
+            );
+
+            const combinedHashtags = keywords.slice(0, 3).map(word =>
+                hashtagModifiers.map(mod => 
+                    `#${word}${mod}`
+                )
+            ).flat();
+
+            const trendingHashtags = [
+                '#Viral', '#Trending', '#Shorts',
+                '#YouTubeTips', '#ContentCreation'
+            ];
+
+            return [...new Set([
+                ...mainHashtags,
+                ...combinedHashtags,
+                ...trendingHashtags
+            ])].slice(0, 25);
+        };
+
+        // Display Functions
+        const displayTags = (tags) => {
+            const container = document.getElementById('tagsContainer');
+            container.innerHTML = tags.map(tag => `
+                <div class="tag-item">${tag}</div>
+            `).join('');
+            container.style.display = 'flex';
+            document.getElementById('hashtagsContainer').style.display = 'none';
+        };
+
+        const displayHashtags = (hashtags) => {
+            const container = document.getElementById('hashtagsContainer');
+            container.innerHTML = hashtags.map(hashtag => `
+                <div class="tag-item hashtag-item">${hashtag}</div>
+            `).join('');
+            container.style.display = 'flex';
+            document.getElementById('tagsContainer').style.display = 'none';
+        };
+
+        // Copy Functionality
+        const copyContent = async () => {
+            try {
+                let content = '';
+                if(document.getElementById('tagsContainer').style.display === 'flex') {
+                    content = Array.from(document.querySelectorAll('.tag-item:not(.hashtag-item)'))
+                        .map(tag => tag.textContent.trim())
+                        .join(', ');
+                } else {
+                    content = Array.from(document.querySelectorAll('.hashtag-item'))
+                        .map(tag => tag.textContent.trim())
+                        .join(' ');
+                }
+
+                await navigator.clipboard.writeText(content);
+                document.getElementById('copySuccess').classList.add('show-success');
+                setTimeout(() => {
+                    document.getElementById('copySuccess').classList.remove('show-success');
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy. Please try again.');
+            }
+        };
+
+        // Enter Key Support
+        document.getElementById('keywordInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') generateTags();
+        });
+    </script>
+</body>
+</html>
